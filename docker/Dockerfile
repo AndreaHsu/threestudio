@@ -4,7 +4,7 @@
 
 FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
-ARG USER_NAME=dreamer
+ARG USER_NAME=root
 ARG GROUP_NAME=dreamers
 ARG UID=1000
 ARG GID=1000
@@ -44,10 +44,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     && rm -rf /var/lib/apt/lists/*
 
 # Change user to non-root user
-RUN groupadd -g ${GID} ${GROUP_NAME} \
-    && useradd -ms /bin/sh -u ${UID} -g ${GID} ${USER_NAME}
-USER ${USER_NAME}
-
+# RUN groupadd -g ${GID} ${GROUP_NAME} \
+#     && useradd -ms /bin/sh -u ${UID} -g ${GID} ${USER_NAME}
+# USER ${USER_NAME}
+RUN pip install mediapipe
 RUN pip install --upgrade pip setuptools ninja
 RUN pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --index-url https://download.pytorch.org/whl/cu118
 # Install nerfacc and tiny-cuda-nn before installing requirements.txt
